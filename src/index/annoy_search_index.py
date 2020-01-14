@@ -38,6 +38,7 @@ class AnnoySearchIndex(SearchIndex):
     def clear_search_index(self):
         self.__search_index.unload()
         self.__index_build_status = SearchIndexState.UN_BUILD
+        self.__vec_count = 0
 
     def add_vec_to_index(self, additional_vec):
         self.__search_index.add_item(self.__vec_count, additional_vec)
@@ -53,6 +54,10 @@ class AnnoySearchIndex(SearchIndex):
         search_index = self.get_new_annoy_index()
         search_index.load(path)
         self.__search_index = search_index
+
+    @property
+    def index_size(self):
+        return self.__vec_count
 
     @property
     def index_build_status(self) -> SearchIndexState:
